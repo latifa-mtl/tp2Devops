@@ -38,5 +38,13 @@ pipeline {
                 }
             }
         }
+        stage('Deploy image') {
+            steps {
+                bat """
+                    docker rm -f tp2-pipeline-web 2>nul
+                    docker run -d --name tp2-pipeline-web -p 8082:80 ${registry}:${BUILD_NUMBER}
+                """
+            }
+        }
     }
 }
